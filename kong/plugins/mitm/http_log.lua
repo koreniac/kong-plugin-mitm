@@ -1,4 +1,5 @@
-local basic_serializer = require "kong.plugins.log-serializers.basic"
+-- local basic_serializer = require "kong.plugins.log-serializers.basic"
+local basic_serializer = require "kong.plugins.mitm.basic_body"
 local BatchQueue = require "kong.tools.batch_queue"
 local cjson = require "cjson"
 local url = require "socket.url"
