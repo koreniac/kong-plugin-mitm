@@ -10,6 +10,8 @@ local ngx_encode_base64 = ngx.encode_base64
 local table_concat = table.concat
 local fmt = string.format
 
+local gkong = kong
+
 local HttpLogHandler = {}
 
 HttpLogHandler.PRIORITY = 12
@@ -136,8 +138,15 @@ local function get_queue_id(conf)
     )
 end
 
-function HttpLogHandler:log(conf)
-    local entry = cjson_encode(basic_serializer.serialize(ngx))
+function HttpLogHandler:getRawBody(conf)
+    return gkong.request.get_raw_body()
+end
+function HttpLogHandler:log(conf, getRawBody)
+    local obj_before_encode = basic_serializer.serialize(ngx)
+    -- modify obj_befor_encode with getRawBody
+    obj_before_encode["request"]["body"] = getRawBody
+    -- before insert entry to batch job
+    local entry = cjson_encode(obj_before_encode)
 
     local queue_id = get_queue_id(conf)
     local q = queues[queue_id]

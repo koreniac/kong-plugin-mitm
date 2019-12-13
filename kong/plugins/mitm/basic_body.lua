@@ -64,7 +64,7 @@ function _M.serialize(ngx, kong)
             querystring = kong.request.get_query(), -- parameters, as a table
             method = kong.request.get_method(), -- http method
             headers = kong.request.get_headers(),
-            body = kong.request.get_raw_body(),
+            -- body = kong.request.get_raw_body(),
             size = var.request_length,
             tls = request_tls
         },
