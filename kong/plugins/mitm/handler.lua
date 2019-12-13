@@ -31,7 +31,7 @@ function MitmHandler:log(conf)
   end
 end
 
-MitmHandler.PRIORITY = 1800
+MitmHandler.PRIORITY = 1900
 MitmHandler.VERSION = "1.0.0"
 
 return MitmHandler

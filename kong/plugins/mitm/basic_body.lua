@@ -22,7 +22,7 @@ local pcall = pcall
 local pairs = pairs
 local error = error
 local rawset = rawset
-local pl_copy_table = pl_tablex.deepcopy
+-- local pl_copy_table = pl_tablex.deepcopy
 
 local _M = {}
 
