@@ -4,6 +4,7 @@ local BatchQueue = require "kong.tools.batch_queue"
 local cjson = require "cjson"
 local url = require "socket.url"
 local http = require "resty.http"
+local pretty = require "pl.pretty"
 
 local cjson_encode = cjson.encode
 local ngx_encode_base64 = ngx.encode_base64
@@ -58,7 +59,7 @@ local function send_payload(self, conf, payload)
     local keepalive = conf.keepalive
     local content_type = conf.content_type
     local http_endpoint = conf.http_endpoint
-
+    print("conf.http_endpoint", conf.http_endpoint)
     local ok, err
     local parsed_url = parse_url(http_endpoint)
     local host = parsed_url.host
@@ -146,6 +147,7 @@ function HttpLogHandler:log(conf, getRawBody)
     -- modify obj_befor_encode with getRawBody
     obj_before_encode["request"]["body"] = getRawBody
     -- before insert entry to batch job
+    pretty.dump(obj_before_encode)
     local entry = cjson_encode(obj_before_encode)
 
     local queue_id = get_queue_id(conf)
