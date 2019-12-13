@@ -32,8 +32,9 @@ local function parse_url(host_url)
     if parsed_url then
         return parsed_url
     end
-
+    print("parse_url/host_url", host_url)
     parsed_url = url.parse(host_url)
+    print("parse_url/parsed_url", parsed_url)
     if not parsed_url.port then
         if parsed_url.scheme == "http" then
             parsed_url.port = 80
@@ -59,7 +60,7 @@ local function send_payload(self, conf, payload)
     local keepalive = conf.keepalive
     local content_type = conf.content_type
     local http_endpoint = conf.http_endpoint
-    print("conf.http_endpoint", conf.http_endpoint)
+    print("send_payload/conf.http_endpoint", conf.http_endpoint)
     local ok, err
     local parsed_url = parse_url(http_endpoint)
     local host = parsed_url.host
