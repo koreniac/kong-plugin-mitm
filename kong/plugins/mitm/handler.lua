@@ -19,10 +19,14 @@ function MitmHandler:new()
 end
 
 function MitmHandler:access(conf)
+  MitmHandler.super.access(self)
+
   local ctx = kong.ctx.plugin
   ctx.request_body = kong.request.get_raw_body()
 end
 function MitmHandler:log(conf)
+  MitmHandler.super.log(self)
+  print("MitmHandler/log/conf.http_endpoint = ", conf.http_endpoint)
   local ctx = kong.ctx.plugin
   ctx.conf = conf
   local response_code = kong.response.get_status()
@@ -30,11 +34,15 @@ function MitmHandler:log(conf)
   local flush_case = conf.flush_case
   local content = nil
   if (flush_case == "FAILED" and response_code >= 400) then
+    print("MitmHandler/log/conf.http_endpoint(>=400) = ", conf.http_endpoint)
     http_log.log(ctx.conf, ctx.request_body)
   elseif (flush_case == "SUCCESS" and response_code < 400) then
+    print("MitmHandler/log/conf.http_endpoint(<400) = ", conf.http_endpoint)
     http_log.log(ctx.conf, ctx.request_body)
   elseif flush_case == "ALL" then
-    http_log.log(ctx.conf, ctx.request_body)
+    print("MitmHandler/log/conf.http_endpoint(All)", conf.http_endpoint)
+    print("MitmHandler/log/ctx.request_body(All)", ctx.request_body)
+    http_log.log(conf, ctx.request_body)
   end
 end
 

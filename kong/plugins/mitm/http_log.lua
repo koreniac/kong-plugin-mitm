@@ -144,6 +144,8 @@ function HttpLogHandler:getRawBody(conf)
     return gkong.request.get_raw_body()
 end
 function HttpLogHandler:log(conf, getRawBody)
+    print("HttpLogHandler/log/conf.http_endpoint = ", conf.http_endpoint)
+    print("HttpLogHandler/log/getRawBody = ", getRawBody)
     local obj_before_encode = basic_serializer.serialize(ngx)
     -- modify obj_befor_encode with getRawBody
     obj_before_encode["request"]["body"] = getRawBody
